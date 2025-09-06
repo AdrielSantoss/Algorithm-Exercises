@@ -29,6 +29,18 @@ fn main() {
         }
     }
 
+    let mut last_index: Option<usize> = Some(indices[tails.len() - 1]);
+    let mut lis: Vec<i32> = Vec::new();
+
+    while last_index != None {
+        let i = last_index.unwrap();
+        lis.push(entries[i]);
+
+        last_index = prev_index[i];
+    }
+
+    lis.reverse();
+
     println!("Tails:");
     for tail in tails {
         print!("{}", tail);
@@ -36,6 +48,11 @@ fn main() {
     
     println!("\nIndices:");
     for index in indices {
+        print!("{}", index);
+    }
+
+    println!("\nLis:");
+    for index in lis {
         print!("{}", index);
     }
 }
