@@ -69,4 +69,4 @@ fn main() {
 // 4. Após montar TAILS, INDICES e PREV_INDEX, a lista de LIS será montada.
 //      4.1 Começar um while com o last_index sendo o ultimo elemento de indices.
 //      4.2 last_index será armazenado em lis: lis.push(last_index)
-//      4.3 
+//      4.3 o valor de last_index será atualizado com o valor de prev_index.
