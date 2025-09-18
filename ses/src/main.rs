@@ -1,5 +1,4 @@
 fn main() {
-
     let entries_a = vec!["A", "G", "G", "T", "A", "B"];
     let entries_b = vec!["G", "X", "T", "X", "A", "Y", "B"];
 
@@ -137,4 +136,55 @@ fn ses_with_visual_moves() {
     }
 
     println!("\nDistância de edição (SES): {}", dp[entries_a.len()][entries_b.len()]);
+     println!("============================");
+
+    // Backtracking
+    let mut i = entries_a.len();
+    let mut j = entries_b.len();
+    let mut ops: Vec<String> = Vec::new();
+
+    while i > 0 || j > 0 {
+        if i > 0 && j > 0 && entries_a[i-1] == entries_b[j-1] {
+            // match
+            ops.push(format!("{} == {} (manter)", entries_a[i-1], entries_b[j-1]));
+            i -= 1;
+            j -= 1;
+        }
+        else if i > 0 && j > 0 && dp[i][j] == dp[i-1][j-1] + 1 {
+            // substituição
+            ops.push(format!("Substituir {} → {}", entries_a[i-1], entries_b[j-1]));
+            i -= 1;
+            j -= 1;
+        }
+        else if i > 0 && dp[i][j] == dp[i-1][j] + 1 {
+            // deleção
+            ops.push(format!("Deletar {}", entries_a[i-1]));
+            i -= 1;
+        }
+        else if j > 0 && dp[i][j] == dp[i][j-1] + 1 {
+            // inserção
+            ops.push(format!("Inserir {}", entries_b[j-1]));
+            j -= 1;
+        }
+        else if i > 0 {
+            // borda: sobrou A
+            ops.push(format!("Deletar {}", entries_a[i-1]));
+            i -= 1;
+        }
+        else if j > 0 {
+            // borda: sobrou B
+            ops.push(format!("Inserir {}", entries_b[j-1]));
+            j -= 1;
+        }
+    }
+
+    println!("\nPassos do backtracking (ordem invertida):");
+    for op in ops.iter() {
+        println!("  {}", op);
+    }
+
+    println!("\nPassos do backtracking (na ordem correta):");
+    for op in ops.iter().rev() {
+        println!("  {}", op);
+    }
 }
