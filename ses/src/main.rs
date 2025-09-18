@@ -1,4 +1,6 @@
 fn main() {
+    println!("Resolvendo o problema da SES!");
+
     let entries_a = vec!["A", "G", "G", "T", "A", "B"];
     let entries_b = vec!["G", "X", "T", "X", "A", "Y", "B"];
 
@@ -74,7 +76,6 @@ fn ses_with_visual_moves() {
 
     let mut dp: Vec<Vec<i32>> = vec![vec![0; entries_b.len() + 1]; entries_a.len() + 1];
 
-    // casos base
     for i in 1..=entries_a.len()  {
         dp[i][0] = i as i32;
     }
@@ -82,7 +83,6 @@ fn ses_with_visual_moves() {
         dp[0][j] = j as i32;
     }
 
-    // cabeçalho da grid
     print!("    ");
     for b in &entries_b {
         print!("{:>3}", b);
@@ -103,7 +103,6 @@ fn ses_with_visual_moves() {
     }
     println!("============================");
 
-    // preenche a dp com debug
     for i in 1..=entries_a.len() {
         for j in 1..=entries_b.len() {
             if entries_a[i-1] == entries_b[j-1] {
@@ -112,7 +111,6 @@ fn ses_with_visual_moves() {
                 dp[i][j] = 1 + dp[i-1][j].min(dp[i-1][j-1]).min(dp[i][j-1]);
             }
 
-            // mostra o estado da matriz a cada passo
             println!("\nApós preencher dp[{}][{}] ({} vs {}):", i, j, entries_a[i-1], entries_b[j-1]);
             print!("    ");
             for b in &entries_b {
@@ -136,43 +134,36 @@ fn ses_with_visual_moves() {
     }
 
     println!("\nDistância de edição (SES): {}", dp[entries_a.len()][entries_b.len()]);
-     println!("============================");
+    println!("============================");
 
-    // Backtracking
     let mut i = entries_a.len();
     let mut j = entries_b.len();
     let mut ops: Vec<String> = Vec::new();
 
     while i > 0 || j > 0 {
         if i > 0 && j > 0 && entries_a[i-1] == entries_b[j-1] {
-            // match
             ops.push(format!("{} == {} (manter)", entries_a[i-1], entries_b[j-1]));
             i -= 1;
             j -= 1;
         }
         else if i > 0 && j > 0 && dp[i][j] == dp[i-1][j-1] + 1 {
-            // substituição
             ops.push(format!("Substituir {} → {}", entries_a[i-1], entries_b[j-1]));
             i -= 1;
             j -= 1;
         }
         else if i > 0 && dp[i][j] == dp[i-1][j] + 1 {
-            // deleção
             ops.push(format!("Deletar {}", entries_a[i-1]));
             i -= 1;
         }
         else if j > 0 && dp[i][j] == dp[i][j-1] + 1 {
-            // inserção
             ops.push(format!("Inserir {}", entries_b[j-1]));
             j -= 1;
         }
         else if i > 0 {
-            // borda: sobrou A
             ops.push(format!("Deletar {}", entries_a[i-1]));
             i -= 1;
         }
         else if j > 0 {
-            // borda: sobrou B
             ops.push(format!("Inserir {}", entries_b[j-1]));
             j -= 1;
         }
