@@ -24,7 +24,48 @@ fn main() {
         }
     }
 
-    println!("Distância de edição (SES): {}", dp[entries_a.len()][entries_b.len()]);
+    let mut i = entries_a.len();
+    let mut j = entries_b.len();
+
+    let mut ops: Vec<String> = Vec::new();
+
+    while i > 0 || j > 0 {
+        if i > 0 && j > 0 && entries_a[i-1] == entries_b[j-1] {
+            ops.push(format!("Match valor={}", entries_a[i-1]));
+
+            i -= 1;
+            j -= 1;
+        }
+        else if i > 0 && j > 0 && dp[i][j] == dp[i-1][j-1] + 1 {
+            ops.push(format!(
+                "Substituir pos={} de={} para={}",
+                i-1, entries_a[i-1], entries_b[j-1]
+            ));
+            i -= 1;
+            j -= 1;
+        }
+        else if i > 0 && dp[i][j] == dp[i-1][j] + 1 {
+            ops.push(format!("Deletar pos={} valor={}", i-1, entries_a[i-1]));
+            i -= 1;
+        }
+        else if j > 0 && dp[i][j] == dp[i][j-1] + 1 {
+            ops.push(format!("Inserir pos={} valor={}", i, entries_b[j-1]));
+            j -= 1;
+        }
+        else if i > 0 {
+            ops.push(format!("Deletar pos={} valor={}", i-1, entries_a[i-1]));
+            i -= 1;
+        }
+        else if j > 0 {
+            ops.push(format!("Inserir pos={} valor={}", i, entries_b[j-1]));
+            j -= 1;
+        }
+    }
+
+    ops.reverse();
+
+    println!("Quantidade de operações (SES): {}", dp[entries_a.len()][entries_b.len()]);
+    println!("Todas as operações: {:?}", ops);
 }
 
 

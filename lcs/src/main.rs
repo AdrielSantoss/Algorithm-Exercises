@@ -119,4 +119,4 @@ fn lcs_with_visual_moves() {
 // 3. Se ocorreu match de igualdade, vamos adicionar esse elemento na lista de LCS e avançar para a proxima celula na diagonal da esquerda. (i - 1, j- 1) 
 // 4. Se não ocorreu match de igualdade, vamos realizar uma operação lógica: dp[i-1][j] > dp[i][j-1]
 // 5. Se a operação for true: vamos avançar para cima (i-1)
-// 6. Se a operação for false: vamos avançar para a esquerda (-1)
+// 6. Se a operação for false: vamos avançar para a esquerda (j-1)
