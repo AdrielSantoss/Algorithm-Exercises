@@ -42,7 +42,7 @@ fn main() {
 }
 
 // Monta exibição visual da movimentação na etapa de backtracking.
-fn lcs_with_visua_moves() {
+fn lcs_with_visual_moves() {
     println!("Resolvendo o problema da LCS!");
     let entries_a = vec!["A", "G", "G", "T", "A", "B"];
     let entries_b = vec!["G", "X", "T", "X", "A", "Y", "B"]; 
