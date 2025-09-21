@@ -11,28 +11,19 @@ fn main() {
     let offset = max;
 
     let mut v: Vec<isize> = vec![0; 2 * max + 1];
-    let mut trace: Vec<isize> = vec![0; 2 * max + 1];
 
     for d in 0..=max as isize {
         for k in (-d..=d).step_by(2) {
            let k_idx = (k + offset as isize) as usize;
 
-           let mut x = 0;
-           let mut y = 0;
+            let mut x = if k == -d || (k != d && v[(k-1+offset as isize) as usize] < v[(k+1+offset as isize) as usize])
+            {
+                v[(k+1+offset as isize) as usize]
+            } else {
+                v[(k-1+offset as isize) as usize] + 1
+            };
 
-           let delete = v[(k+1+offset as isize) as usize];
-           let insert = v[(k-1+offset as isize) as usize] + 1;
-
-            if k == -d {
-                x = insert;
-            } else if k == d {
-                x = delete;
-            }
-            else {
-                x = delete.max(insert);
-            }
-
-            y = x - k;
+            let mut y = x - k;
 
             v[k_idx] = x;
 
@@ -42,6 +33,7 @@ fn main() {
             }
 
             if (x as usize) >= n && (y as usize) >= m {
+                println!("O tamanho da SES é: {}", d);
                 return;
             }
         }
