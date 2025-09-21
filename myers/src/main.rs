@@ -25,12 +25,12 @@ fn main() {
 
             let mut y = x - k;
 
-            v[k_idx] = x;
-
             while x < n as isize && y < m as isize && entries_a[x as usize] == entries_b[y as usize] {
                 x += 1;
                 y += 1;
             }
+
+            v[k_idx] = x;
 
             if (x as usize) >= n && (y as usize) >= m {
                 println!("O tamanho da SES é: {}", d);
