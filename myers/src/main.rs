@@ -78,11 +78,11 @@ fn main() {
         }
 
         if d > 0 {
-            if x == prev_x {
+            if y > 0 && x == prev_x {
                 edits.push(format!("INSERT {}", entries_b[(y - 1) as usize]));
-                
+
                 y -= 1;
-            } else {
+            } else if x > 0 {
                 edits.push(format!("DELETE {}", entries_a[(x - 1) as usize]));
 
                 x -= 1;
@@ -91,6 +91,6 @@ fn main() {
     }
 
     for op in edits.iter().rev() {
-        print!("{}\n", op)
+        print!("{}", op)
     }
 }
