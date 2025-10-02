@@ -1,4 +1,4 @@
-# Desafio de Lógica em Rust – Subarray de Soma Máxima Não Negativa
+# Maximum Non Negative Subarray Sum
 
 ## Descrição
 
